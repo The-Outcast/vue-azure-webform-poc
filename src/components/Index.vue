@@ -53,7 +53,7 @@
           aanvragen ophalen
         </button>
       </div>
-      <p v-if="!completedRequests">Geen complete Railpass aanvragen</p>
+      <p v-if="!completedRequests">Geen Railpass aanvragen</p>
       <table class="table" v-if="completedRequests">
         <thead>
           <tr>
