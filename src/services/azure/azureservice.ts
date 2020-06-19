@@ -8,10 +8,10 @@ export interface RailpassRequest {
 }
 
 export function postRailpassRequest(request: RailpassRequest): void {
-    axios.post("https:\\nmbs-func.azurewebsites.net/api/Railpass?code=tY0Wj1aEwHYgDS3RGEGor4sDk2ar94LMEMgCY3E1HumuOMFJJl9iFA==", request);
+    axios.post("/api/Railpass?code=tY0Wj1aEwHYgDS3RGEGor4sDk2ar94LMEMgCY3E1HumuOMFJJl9iFA==", request, { baseURL: "https:\\nmbs-func.azurewebsites.net" });
 }
 
 export async function getRailpassRequests(): Promise<RailpassRequest[]> {
-    return await axios.get<RailpassRequest[]>("https:\\nmbs-func.azurewebsites.net/api/GetRailpassRequests?code=SmQd7QZHDAR5eW25wl5nCv3gTVaLuHvWmid//qD1kQv9jPjqfr5bqA==")
+    return await axios.get<RailpassRequest[]>("/api/GetRailpassRequests?code=SmQd7QZHDAR5eW25wl5nCv3gTVaLuHvWmid//qD1kQv9jPjqfr5bqA==", { baseURL: "https:\\nmbs-func.azurewebsites.net" })
         .then(result => result.data);
 }
