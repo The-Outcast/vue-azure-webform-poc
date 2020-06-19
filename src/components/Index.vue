@@ -6,35 +6,82 @@
         <div class="row">
           <div class="form-group col-sm-12 col-md-6 col-lg-4">
             <label for="exampleInputEmail1">Insz</label>
-            <input type="text" class="form-control" v-model="railRequest.Insz" />
+            <input
+              type="text"
+              class="form-control"
+              v-model="railRequest.Insz"
+            />
           </div>
           <div class="form-group col-sm-12 col-md-6 col-lg-4">
             <label for="exampleInputEmail1">Email addres</label>
-            <input type="email" class="form-control" aria-describedby="emailHelp" v-model="railRequest.Email" />
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <input
+              type="email"
+              class="form-control"
+              aria-describedby="emailHelp"
+              v-model="railRequest.Email"
+            />
+            <small id="emailHelp" class="form-text text-muted"
+              >We'll never share your email with anyone else.</small
+            >
           </div>
         </div>
         <div class="row">
           <div class="form-group col-sm-12 col-md-6 col-lg-4">
             <label for="exampleInputEmail1">Voornaam</label>
-            <input type="text" class="form-control" v-model="railRequest.Firstname" />
+            <input
+              type="text"
+              class="form-control"
+              v-model="railRequest.Firstname"
+            />
           </div>
           <div class="form-group col-sm-12 col-md-6 col-lg-4">
             <label for="exampleInputEmail1">Naam</label>
-            <input type="text" class="form-control" v-model="railRequest.Lastname" />
+            <input
+              type="text"
+              class="form-control"
+              v-model="railRequest.Lastname"
+            />
           </div>
         </div>
         <button type="submit" class="btn btn-outline-primary">Submit</button>
       </form>
     </div>
+    <div class="container requests">
+      <div class="row seperate-bot">
+        <h2 class="col-sm-12 col-md-5">Gemaakte aanvragen</h2>
+        <button class="btn btn-outline-secondary" @click="retrieveRequests">
+          aanvragen ophalen
+        </button>
+      </div>
+      <p v-if="!completedRequests">Geen complete Railpass aanvragen</p>
+      <table class="table" v-if="completedRequests">
+        <thead>
+          <tr>
+            <td>Insz</td>
+            <td>Email</td>
+            <td>Voornaam</td>
+            <td>Naam</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="request in completedRequests" :key="request.Insz">
+            <td>{{ request.Insz }}</td>
+            <td>{{ request.Email }}</td>
+            <td>{{ request.Firstname }}</td>
+            <td>{{ request.Lastname }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Ref } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import {
   RailpassRequest,
-  postRailpassRequest
+  postRailpassRequest,
+  getRailpassRequests
 } from "../services/azure/azureservice";
 
 @Component
@@ -48,9 +95,16 @@ export default class Index extends Vue {
     Lastname: ""
   };
 
+  @Prop() private completedRequests: RailpassRequest[] | null = null;
+
   submitForm() {
-    console.log("submitting form", this.railRequest);
     postRailpassRequest(this.railRequest);
+  }
+
+  async retrieveRequests() {
+    const result = await getRailpassRequests();
+    console.log("result", result);
+    this.$props["completedRequests"] = result;
   }
 }
 </script>
@@ -74,9 +128,13 @@ a {
   color: #42b983;
 }
 
-@include media-breakpoint-up(sm) {
-  .test {
-    display: flex;
-  }
+.seperate-bot {
+  margin-bottom: 2rem;
+}
+
+.requests {
+  border-top: solid darkgray 1px;
+  margin-top: 2rem;
+  padding-top: 1rem;
 }
 </style>
