@@ -61,6 +61,7 @@
             <td>Email</td>
             <td>Voornaam</td>
             <td>Naam</td>
+            <td>Address</td>
           </tr>
         </thead>
         <tbody>
@@ -69,6 +70,7 @@
             <td>{{ request.Email }}</td>
             <td>{{ request.Firstname }}</td>
             <td>{{ request.Lastname }}</td>
+            <td>{{ request.Address }}</td>
           </tr>
         </tbody>
       </table>
@@ -92,7 +94,8 @@ export default class Index extends Vue {
     Insz: "",
     Email: "",
     Firstname: "",
-    Lastname: ""
+    Lastname: "",
+    Address: ""
   };
 
   @Prop() private completedRequests: RailpassRequest[] | null = null;
@@ -103,7 +106,6 @@ export default class Index extends Vue {
 
   async retrieveRequests() {
     const result = await getRailpassRequests();
-    console.log("result", result);
     this.$props["completedRequests"] = result;
   }
 }

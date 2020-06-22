@@ -2,7 +2,8 @@ export interface RailpassRequest {
     readonly Insz: string,
     readonly Email: string,
     readonly Firstname: string,
-    readonly Lastname: string
+    readonly Lastname: string,
+    readonly Address: string
 }
 
 async function postData(url = '', data = {}) {
