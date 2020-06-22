@@ -7,6 +7,8 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Index from "./components/Index.vue";
+import "es6-promise";
+import "isomorphic-fetch";
 
 @Component({
   components: {
